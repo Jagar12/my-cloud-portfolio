@@ -1,0 +1,12 @@
+Implementation:
+1.	Navigate to https://partyrock.aws/
+2.	Begin generating the application by clicking on “Build your own app” or “Generate app”
+3.	Input into the prompt “Generate a daily task scheduler”
+4.	Click on “Generate App”
+5.	PartyRock then generates an application which will ask you to input tasks to be done, working time, etc and will generate a daily schedule on your behalf. It even factors in optimal times for certain tasks, as well as breaks. 
+6.	Next, click on “Add Widget” in the top left of your screen to add a new widget. Choose user input widget. Change the name and placeholder of your widget. 
+7.	Give this widgets name as an input for the schedule widget by referencing it in the “Prompt” section with the use of @ and then the name of the previous widget. 
+8.	Click on save and re-run the schedule generator. 
+9.	Next, add motivational quote and image widgets. First, for the quote, click “Add Widget” and select “Generated Text”. Rename the title and enter into the prompt “Generate a motivational quote to get started with the day”. Then, for the image. Click “Add Widget” again and select “Generated Image”. Rename the title and enter into the prompt “A motivational image from @(the quote widget name)”. 
+10.	Then, you can move and resize all widgets into preferred configuration. Any widgets can be edited by clicking the “Edit” option in the top right corner of the widget. You can change the names, models, prompts, placeholders etc. Remember, if you change the name of a widget and it is references in another widget, that will need to be adjusted as well. 
+11.	Finally, you can publish your application by clicking on the “Make public and share button” in the top right corner of the website. Now, anyone can see, use or remix your application. 
