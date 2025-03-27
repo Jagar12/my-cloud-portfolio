@@ -6,6 +6,8 @@ TaskTide is an AI-generated daily task scheduler application built using PartyRo
 ## Services Used
 - **PartyRock**, powered by **Amazon Bedrock**
 
+- ![Alt text](PartyRock-Project/PartyRock.png)
+
 ## Features
 ✅ AI-generated daily task schedule  
 ✅ Customizable task list with time allocation  
