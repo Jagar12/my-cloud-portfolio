@@ -1,0 +1,109 @@
+# AWS Rekognition with S3
+
+## Steps:
+
+### Create an Amazon S3 Bucket and Upload Images
+1. Log in to AWS Management Console
+2. Navigate to S3
+3. Click on "Create Bucket"
+4. Choose a globally unique name for your bucket and select the region to store the bucket.
+5. Leave the default settings for the rest of the options and click "Create Bucket"
+6. Once created, navigate to the bucket
+7. Click on "Upload" and select the images you want to analyze from your system. (Select an image with multiple objects present to adequately demonstrate the accuracy of the model when multiple labels are present)
+8. Click on "Upload" to upload the image into the S3 bucket
+
+### Install the AWS CLI
+9. Open your terminal or command prompt.
+10. Run the command appropriate for your OS to install the AWS CLI:
+    - **Windows:** `msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi`
+    - **macOS (Homebrew):** `brew install awscli`
+    - **Linux (APT):** `sudo apt-get install awscli`
+11. Verify installation: `aws --version`
+
+### Configure the AWS CLI
+12. Run: `aws configure`
+13. Navigate to AWS Management console and search for IAM in the search bar.
+14. Select Users and click on Create User 
+15. Give an appropriate user name and click "Next"
+16. At permission options, select "Attach policies directly" and attach the "AdministratorAccess" policy.
+17. Click "Next" and "Create User"
+18. Navigate to the user you created, and click on "Create Access Key" under the "Access Key" option.
+19. Choose the "Command Line Interface(CLI)" as the use case, check the confirmation box and click "Next"
+20. Provide a suitable description about the purpose of the Access Key and select "Create Access Key"
+21. Navigate back to the command line and enter your AWS access key and secret key.
+22. Set the region (should match the S3 bucket region).
+23. Input "None" for "Default output format".
+
+### Import Libraries
+24. Create a `.py` file and install dependencies:
+```sh
+pip install boto3
+pip install matplotlib
+```
+25. Add the following imports to your script:
+```python
+import boto3
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+from PIL import Image
+from io import BytesIO
+```
+
+### Define Functions
+26. Define the `detect_labels` function:
+```python
+def detect_labels(photo, bucket):
+    client = boto3.client('rekognition')
+    response = client.detect_labels(
+        Image={'S3Object': {'Bucket': bucket, 'Name': photo}},
+        MaxLabels=10)
+    
+    print('Detected labels for ' + photo)
+    for label in response['Labels']:
+        print("Label:", label['Name'])
+        print("Confidence:", label['Confidence'])
+        print()
+    
+    s3 = boto3.resource('s3')
+    obj = s3.Object(bucket, photo)
+    img_data = obj.get()['Body'].read()
+    img = Image.open(BytesIO(img_data))
+    
+    plt.imshow(img)
+    ax = plt.gca()
+    for label in response['Labels']:
+        for instance in label.get('Instances', []):
+            bbox = instance['BoundingBox']
+            left = bbox['Left'] * img.width
+            top = bbox['Top'] * img.height
+            width = bbox['Width'] * img.width
+            height = bbox['Height'] * img.height
+            rect = patches.Rectangle((left, top), width, height, linewidth=1, edgecolor='r', facecolor='none')
+            ax.add_patch(rect)
+            label_text = label['Name'] + ' (' + str(round(label['Confidence'], 2)) + '%)'
+            plt.text(left, top - 2, label_text, color='r', fontsize=8, bbox=dict(facecolor='white', alpha=0.7))
+    plt.show()
+    
+    return len(response['Labels'])
+```
+
+### Add Main Function
+27. Add the main function:
+```python
+def main():
+    photo = 'image_file_name'
+    bucket = 'bucket_name'
+    label_count = detect_labels(photo, bucket)
+    print("Labels detected:", label_count)
+
+if __name__ == "__main__":
+    main()
+```
+28. Change 'image_file_name' and 'bucket_name' to your actual configured naming.
+
+### Running the Script
+29. In the terminal, navigate to the directory where the Python file is stored and run:
+```sh
+python name_of_python_file.py
+```
+30. The output will display detected labels with confidence levels and a pop-up showing the image with bounding boxes.
