@@ -39,8 +39,8 @@ This project demonstrates the integration of **Amazon Rekognition** and **Amazon
 - Follow the **principle of least privilege**.
 - **Rotate** your credentials regularly.
 
-  ## Final Statement
-  -This project was a lot of fun and taught me some valuable skills to be used with the Rekognition project, the AWS CLI, as well as a reminder of how many background services (such as IAM, S3, and Lambda) are utilized for each and every project. I am also excited for the opportunity to explore the Rekognition project further. Some future applications that I hope to explore are adding video label detection, real-time object label detection and analyzing facial expressions. 
+## Final Statement
+-This project was a lot of fun and taught me some valuable skills to be used with the Rekognition project, the AWS CLI, as well as a reminder of how many background services (such as IAM, S3, and Lambda) are utilized for each and every project. I am also excited for the opportunity to explore the Rekognition project further. Some future applications that I hope to explore are adding video label detection, real-time object label detection and analyzing facial expressions. 
 
 
 Feel free to contribute or raise issues to enhance this project!
