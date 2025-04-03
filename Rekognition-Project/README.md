@@ -9,6 +9,9 @@ This project demonstrates the integration of **Amazon Rekognition** and **Amazon
 - Python 3.x Installed
 - Python packages: `boto3`, `matplotlib`, `Pillow`
 
+## Services Used
+- S3, Amazon Rekognition, Lambda, IAM, AWS CLI.
+
 ## Setup Instructions
 
 ### Step 1: Create an Amazon S3 Bucket and Upload Images
