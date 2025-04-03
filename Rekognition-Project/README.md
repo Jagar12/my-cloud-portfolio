@@ -18,20 +18,13 @@ This project demonstrates the integration of **Amazon Rekognition** and **Amazon
 
 
 ### Step 3: Install Required Python Libraries
-Install the necessary dependencies:
-```sh
-pip install boto3 matplotlib Pillow
-```
+
 
 ### Step 4: Python Script to Detect Labels with Rekognition
-Create a Python file (e.g., `detect_labels.py`) and paste the following code:
 
 
 ### Step 5: Execute the Script
-In your terminal, navigate to the script directory and run:
-```sh
-python detect_labels.py
-```
+
 
 ## Output
 - Printed list of detected labels with confidence scores.
