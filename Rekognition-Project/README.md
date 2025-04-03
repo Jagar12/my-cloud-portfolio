@@ -1,46 +1,48 @@
-AWS Rekognition with S3
+# AWS Rekognition with Amazon S3
 
-Overview
+## Project Overview
+This project demonstrates the integration of **Amazon Rekognition** and **Amazon S3** using **Python**. You will learn how to create an S3 bucket, upload images, and use Rekognition to detect objects and labels in the images through a Python script.
 
-This project demonstrates how to use AWS Rekognition to detect labels in images stored in an S3 bucket. The guide walks through setting up an S3 bucket, installing and configuring AWS CLI, and running a Python script to analyze images using Rekognition.
+## Prerequisites
+- Active AWS Account
+- AWS CLI (Installed & Configured)
+- Python 3.x Installed
+- Python packages: `boto3`, `matplotlib`, `Pillow`
 
-Prerequisites
+## Setup Instructions
 
-An AWS account
-
-AWS CLI installed and configured
-
-Python installed (preferably Python 3.x)
-
-Required Python libraries: boto3, matplotlib, PIL
-
-Steps to Set Up
-
-1. Create an Amazon S3 Bucket and Upload Images
-
-2. Install and Configure AWS CLI
-
-3. Install Required Python Libraries
-
-4. Run the Python Script
+### Step 1: Create an Amazon S3 Bucket and Upload Images
 
 
-Replace image_file_name and bucket_name with your actual values.
+### Step 2: Install and Configure the AWS CLI
 
-Run the script:
 
-python script_name.py
+### Step 3: Install Required Python Libraries
+Install the necessary dependencies:
+```sh
+pip install boto3 matplotlib Pillow
+```
 
-Expected Output
+### Step 4: Python Script to Detect Labels with Rekognition
+Create a Python file (e.g., `detect_labels.py`) and paste the following code:
 
-A list of detected labels along with confidence levels.
 
-A pop-up displaying the image with bounding boxes around detected objects.
+### Step 5: Execute the Script
+In your terminal, navigate to the script directory and run:
+```sh
+python detect_labels.py
+```
 
-Best Practices
+## Output
+- Printed list of detected labels with confidence scores.
+- Visual display of the image with labeled bounding boxes.
 
-Do not hardcode access keys in the script.
+## Security Best Practices
+- **Never hardcode credentials in your code.**
+- Use **IAM roles** or **AWS credentials file**.
+- Follow the **principle of least privilege**.
+- **Rotate** your credentials regularly.
 
-Rotate and manage AWS credentials securely.
 
-Enable least privilege access for IAM users.
+Feel free to contribute or raise issues to enhance this project!
+
