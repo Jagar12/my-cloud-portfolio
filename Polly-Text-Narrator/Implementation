@@ -1,0 +1,114 @@
+# Text-to-Speech with Amazon Polly, Lambda, and S3
+
+## Overview
+
+This guide walks through creating a serverless application using AWS Lambda, Amazon Polly, IAM, and S3 to convert text into speech and store the resulting audio in an S3 bucket.
+
+---
+
+## Steps
+
+### 1. Create an IAM Role
+
+1. From the **AWS Management Console**, navigate to **IAM**.
+2. Go to **Access Management → Roles → Create Role**.
+3. Select **AWS service** as the trusted entity type and choose **Lambda** as the use case. Click **Next**.
+4. Attach the following policies:
+   - `AmazonPollyFullAccess`
+   - `AmazonS3FullAccess`
+   - `AWSLambdaBasicExecutionRole`
+5. Click **Next**.
+6. Provide a suitable name and description. Click **Create role**.
+
+---
+
+### 2. Create an S3 Bucket
+
+1. In the **AWS Management Console**, navigate to **S3**.
+2. Click **Create bucket**.
+3. Enter a **globally unique bucket name**.
+4. Leave other settings at default and click **Create bucket**.
+
+---
+
+### 3. Create a Lambda Function
+
+1. From the console, go to **Lambda** → **Create function**.
+2. Enter a name for your function.
+3. Choose **Node.js 18.x** as the runtime.
+4. Under "Change default execution role", choose **Use existing role** and select the IAM role created earlier.
+5. Click **Next**.
+6. Rename `index.mjs` to `index.js` in the function code editor.
+
+---
+
+### 4. Lambda Function Code
+
+1. Replace the contents of the function with the following code:
+
+```javascript
+const { PollyClient, SynthesizeSpeechCommand } = require("@aws-sdk/client-polly");
+const { S3Client } = require("@aws-sdk/client-s3");
+const { Upload } = require("@aws-sdk/lib-storage"); 
+
+const polly = new PollyClient({});
+const s3 = new S3Client({});
+
+exports.handler = async (event) => {
+    try {
+        const text = event.text;
+
+        const params = {
+            Text: text,
+            OutputFormat: "mp3",
+            VoiceId: "Joanna",
+        };
+
+        // Synthesize speech using Polly
+        const command = new SynthesizeSpeechCommand(params);
+        const data = await polly.send(command);
+
+        // Generate a unique key for the audio file
+        const key = `audio-${Date.now()}.mp3`;
+
+        // Upload to S3
+        const upload = new Upload({
+            client: s3,
+            params: {
+                Bucket: "<YOUR-BUCKET-NAME>", // Replace with your bucket name
+                Key: key,
+                Body: data.AudioStream, 
+                ContentType: "audio/mpeg",
+            },
+        });
+
+        await upload.done();
+
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ message: `Audio file stored as ${key}` }),
+        };
+    } catch (error) {
+        console.error("Error:", error);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ message: "Internal server error" }),
+        };
+    }
+};
+2. Replace YOUR-BUCKET-NAME with the name of the bucket you just created
+3. Click on **Test** and configure a test event for the Lambda function.
+4. Provide a name for your test configuration and in the Event JSON, provide the text you want to be converted to audio in the form:
+{
+	“text”: “Your text here”
+}
+5. Leave the rest of the configurations as default and click **Save**.
+6. Click on the **Test** button again to invoke the test event.
+7.	Check the output
+
+---
+
+### 5. Retrieve Output
+
+1. Lastly, access the audio file by checking it in the previously created S3 bucket.
+
