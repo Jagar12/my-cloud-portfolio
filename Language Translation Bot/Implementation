@@ -23,4 +23,151 @@ This guide walks you through creating a language translation chatbot using **Ama
 1. Navigate to your chatbot and go into the **Intent details**. Provide a name and description.
 2. In **Sample Utterances**, add example phrases users might say.
 3. Click **Save Intent**.
-4. Go to **Intents List**
+4. Go to **Intents List → Slot type → Add Slot type**.
+5. Choose **Add blank slot type** and name it `language`.
+6. Add these languages as slot type values:
+   - Thai
+   - French
+   - German
+   - Chinese
+   - Japanese
+   - Spanish
+   - Norwegian  
+   *(These must match what's supported in your Lambda function)*
+7. Click **Save slot type**.
+8. Go back to the intent and click **Add Slot**.
+9. Name the slot, and select the `language` slot type.
+10. Add a **prompt** asking the user for a language to translate to.
+11. Create another slot called `text`, and choose **AMAZON.FreeFormInput** as the slot type.
+12. Add a **prompt** asking for the text to be translated.
+13. Add more utterances like: `Translate in {language}`.
+14. Add an **initial response** to acknowledge the intent.
+
+---
+
+### 3. Specify Fulfillment
+
+1. Provide **success** and **failure prompts**.
+2. Click **Advanced Options** → check **Use a Lambda function for fulfillment** → click **Update Options**.
+3. Add a **closing message**.
+4. Click **Save Intent**.
+
+---
+
+### 4. Create an IAM Role
+
+1. From the AWS Management Console, go to **IAM** → **Roles** → **Create Role**.
+2. Select **AWS service** as trusted entity and choose **Lambda** as use case.
+3. Attach the following policies:
+   - `TranslateFullAccess`
+   - `AWSLambdaBasicExecutionRole`
+4. Click **Next**, give the role a name and description, then click **Create Role**.
+
+---
+
+### 5. Create a Lambda Function
+
+1. Navigate to **AWS Lambda** → **Create Function**.
+2. Give it a name and choose **Python 3.12** as runtime.
+3. Choose the previously created IAM role under **Execution Role**.
+4. Paste the following code:
+
+```python
+import boto3
+
+def lambda_handler(event, context):
+    try:
+        input_text = event['sessionState']['intent']['slots']['text']['value']['interpretedValue'].strip()
+        language_slot = event['sessionState']['intent']['slots']['language']['value']['interpretedValue']
+
+        if not input_text:
+            raise ValueError("Input text is empty.")
+
+        language_codes = {
+            'Thai': 'th', 'thai': 'th',
+            'French': 'fr', 'french': 'fr',
+            'Japanese': 'ja', 'japanese': 'ja',
+            'Chinese': 'zh', 'chinese': 'zh',
+            'Spanish': 'es', 'spanish': 'es',
+            'German': 'de', 'german': 'de',
+            'Norwegian': 'no', 'norwegian': 'no'
+        }
+
+        if language_slot not in language_codes:
+            raise ValueError(f"Unsupported language: {language_slot}")
+
+        target_language_code = language_codes[language_slot]
+
+        translate_client = boto3.client('translate')
+
+        response = translate_client.translate_text(
+            Text=input_text,
+            SourceLanguageCode='auto',
+            TargetLanguageCode=target_language_code
+        )
+
+        translated_text = response['TranslatedText']
+
+        lex_response = {
+            "sessionState": {
+                "dialogAction": {"type": "Close"},
+                "intent": {"name": "TranslateIntent", "state": "Fulfilled"}
+            },
+            "messages": [{
+                "contentType": "PlainText",
+                "content": translated_text
+            }]
+        }
+
+        return lex_response
+
+    except Exception as error:
+        error_message = "Lambda execution error: " + str(error)
+        print(error_message)
+        return {
+            "sessionState": {
+                "dialogAction": {"type": "Close"},
+                "intent": {"name": "TranslateIntent", "state": "Fulfilled"}
+            },
+            "messages": [{
+                "contentType": "PlainText",
+                "content": error_message
+            }]
+        }
+5.  Click on ‘Deploy’ to deploy the Lambda function
+6.  To test the Lambda function, click on Test and configure the Test event.
+7.	Give a suitable name to the test event and select Private under “Event sharing settings”
+8.	Paste the following under Event JSON:
+{
+  "sessionState": {
+    "intent": {
+      "name": "TranslateIntent",
+      "slots": {
+        "text": {
+          "value": {
+            "interpretedValue": "Hello",
+            "originalValue": "Hello"
+          }
+        },
+        "language": {
+          "value": {
+            "interpretedValue": "French",
+            "originalValue": "French"
+          }
+        }
+      }
+    }
+  }
+}
+
+9. Save the test event and click on Test again to invoke the event.
+
+---
+
+### 6. Testing the Chatbot
+
+1.	Navigate to the Intent page of your previously created Chatbot. Before testing it, we need to specify the Lambda function to be used by Lex.
+2.	Click on the settings option present on your top right of the chatbot window and choose the Source of Lambda function as your previous created function.
+3.	The chatbot is ready, proceed to test!
+
+
