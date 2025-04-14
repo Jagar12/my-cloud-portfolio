@@ -1,0 +1,26 @@
+# AWS Translate Chatbot with Amazon Lex and Lambda
+
+This guide walks you through creating a language translation chatbot using **Amazon Lex**, **AWS Lambda**, and **Amazon Translate**.
+
+---
+
+## Steps to Create the Chatbot
+
+### 1. Create a Chatbot
+
+1. Log in to the AWS Management Console and navigate to **Amazon Lex**.
+2. Click on **Create Bot**.
+3. Under *Creation method*, select **Create a blank bot**.
+4. Provide an appropriate **name** and **description**.
+5. Under *IAM permissions*, choose **Create a role with basic Amazon Lex Permissions**.
+6. Select **No** for the Children’s Online Privacy Protection Act option. Leave other settings as default and click **Next**.
+7. Choose your **language** and **voice interaction module**. Keep the *Intent classification confidence score threshold* as default and click **Done**.
+
+---
+
+### 2. Specify Intent and Slots
+
+1. Navigate to your chatbot and go into the **Intent details**. Provide a name and description.
+2. In **Sample Utterances**, add example phrases users might say.
+3. Click **Save Intent**.
+4. Go to **Intents List**
