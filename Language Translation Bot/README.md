@@ -1,4 +1,4 @@
-# 🌐 Language Translation Bot with Amazon Lex
+# Language Translation Bot with Amazon Lex
 
 In this project, I built a **language translation chatbot** using **Amazon Lex**. The chatbot allows users to request a translation by providing a target language and the text they want to translate. Once submitted, the chatbot responds with the translated text using **Amazon Translate**.
 
@@ -62,7 +62,7 @@ It was a fun and rewarding challenge that sharpened my **problem-solving**, **tr
 
 ---
 
-## 🛠AWS Services Used
+## AWS Services Used
 
 - [Amazon Lex](https://aws.amazon.com/lex/)
 - [AWS Lambda](https://aws.amazon.com/lambda/)
