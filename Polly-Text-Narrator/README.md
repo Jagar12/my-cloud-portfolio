@@ -1,57 +1,64 @@
-## Text Narrator with Amazon Polly & AWS Lambda
 
-This project gave me valuable experience working with **Amazon Polly**, sparking a renewed interest in **machine learning services**. I explored various features of Polly, including the ability to adjust **voice**, **pitch**, and **speed** parameters.
+# Text Narrator Using Amazon Polly and AWS Lambda
 
-The main goal of the project was to develop a **text narrator**. A piece of text is input, converted to speech using Amazon Polly, and the resulting audio is saved into an **S3 bucket**.
+This project uses Amazon Polly, AWS Lambda, and Amazon S3 to convert text into speech and store the generated audio files.
 
----
+I was interested in exploring Amazon Polly because of its text-to-speech capabilities and the different ways it could be used in applications. Working with Polly also increased my interest in AWS machine learning services.
 
-## Project Workflow
-
-1. **IAM Role Creation**  
-   Created an IAM role to allow Lambda access to Amazon Polly and S3.
-
-2. **S3 Bucket Setup**  
-   Created a secure S3 bucket to store the output audio files.
-
-3. **Lambda Function Development**  
-   Configured a Node.js Lambda function that converts text to speech and stores the audio in the S3 bucket.
-
-4. **Testing**  
-   Successfully tested the Lambda function by passing JSON input and verifying output in S3.
+For this project, I wanted to build a simple text narrator that takes text as input, converts it into speech using Amazon Polly, and saves the resulting audio file in an S3 bucket. I also spent some time exploring different voice settings, including pitch and speaking speed.
 
 ---
 
-## Future Plans
+#### AWS Services and Tools
 
-A future enhancement of this project would be to build a **web-based UI** that allows users to:
-- Enter custom text
-- Submit it to the backend Lambda function
-- Receive and play back the generated audio file on the frontend
+- **Amazon Polly** - Converts text into speech.
+- **AWS Lambda** - Runs the Node.js function that processes text and generates audio.
+- **Amazon S3** - Stores the generated audio files.
+- **IAM** - Manages permissions between Lambda, Polly, and S3.
+- **AWS Management Console** - Used to configure and manage the AWS resources.
 
-Stay tuned!
+#### How I Set It Up
+
+1. Created an IAM role to give Lambda the necessary permissions to access Amazon Polly and S3.
+2. Created an S3 bucket to store the generated audio files.
+3. Configured a Node.js Lambda function to process text input and communicate with Polly.
+4. Set up the function to save the generated audio files in the S3 bucket.
+5. Tested the Lambda function using JSON input and verified that the audio files were successfully saved to S3.
+
+#### How the Lambda Function Works
+
+The Lambda function handles the text-to-speech process by:
+
+1. Using the AWS SDK to communicate with Amazon Polly and S3.
+2. Receiving text input through a JSON event.
+3. Processing the input and configuring the voice settings.
+4. Sending the text to Amazon Polly for speech synthesis.
+5. Saving the generated audio file to the S3 bucket.
+6. Returning a success message or an error if the process fails.
+
+The function can be configured to use different voices, audio formats, and speech settings depending on the desired output.
+
+#### Configuration
+
+Before running the Lambda function, replace `YOUR-BUCKET-NAME` in the code with the name of your own S3 bucket.
+
+The Lambda execution role also needs the appropriate IAM permissions to access Amazon Polly and write files to S3.
+
+#### Results
+
+After testing the Lambda function, I was able to successfully convert text into speech and store the resulting audio files in S3.
+
+This confirmed that Lambda could communicate with Polly, process the text input, and save the generated audio without needing to run the code locally.
 
 ---
 
-## Project Notes
+#### What I Learned
 
-1. The Lambda function:
-   - Enables AWS SDK communication with Amazon Polly and S3
-   - Waits for input and triggers processing
-   - Converts input text to speech
-   - Sets voice characteristics (voice, format, pitch, etc.)
-   - Sends the text to Polly and stores the result in S3
-   - Returns a success message or error if something goes wrong
+This project gave me more hands-on experience working with Amazon Polly and helped me better understand how AWS services can be connected to automate a process.
 
-2. ⚠️ **Be sure to replace** `YOUR-BUCKET-NAME` **with your actual S3 bucket name** in the Lambda code.
+I also gained more experience configuring IAM permissions, working with Lambda functions, and using S3 to store generated files.
 
----
+One feature I'd like to add in the future is a simple web interface where users can enter their own text, submit it to the Lambda function, and listen to the generated audio directly in their browser.
 
-## Services Used
-
-- **Amazon Polly**
-- **AWS Management Console**
-- **AWS IAM**
-- **AWS Lambda**
-- **Amazon S3**
+I think this would be a useful next step in turning the project into a more complete application.
 
