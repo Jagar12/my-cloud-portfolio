@@ -1,46 +1,81 @@
+
 # TaskTide - AI-Powered Daily Task Scheduler
 
-## Project Overview
-TaskTide is an AI-generated daily task scheduler application built using PartyRock, powered by Amazon Bedrock. This application helps users structure their day efficiently by generating a schedule based on their input. It incorporates various widgets such as work hours, task list, time allocation, a motivational quote and image, a schedule assistant chat, and a final generated schedule. Once the necessary inputs are provided, the application generates a motivational quote, a motivational picture, and a structured schedule that includes optimal arrangement of tasks and included breaks.
+TaskTide is a daily task scheduling application I built using PartyRock, an AI application-building tool powered by Amazon Bedrock.
 
-## Services Used
-- **PartyRock**, powered by **Amazon Bedrock**
+The application allows users to enter their tasks, working hours, and time needed to complete each task. Based on that information, it generates a daily schedule with allocated time blocks and breaks.
 
-## Features
-✅ AI-generated daily task schedule  
-✅ Customizable task list with time allocation  
-✅ Motivational quote and image generation  
-✅ Interactive schedule assistant chat  
-✅ Automated widget synchronization for a seamless experience  
-✅ User-friendly interface optimized for efficiency  
+TaskTide also includes a motivational quote, an AI-generated image, and a chatbot that users can interact with to make adjustments to their schedule.
 
-## Overview
-This project was developed with the understanding that not everyone has a technical background, yet many could benefit from AI-driven tools for productivity. Exploring PartyRock and Bedrock enabled me to experiment with emerging AI-powered applications that enhance daily life.
+I wanted to explore PartyRock because of how accessible it makes AI application development, even for people without a technical background. I thought a daily task scheduler would be a useful way to experiment with the platform while building something practical.
 
-### **Approach & Implementation**
-I started by prompting PartyRock with:  
-> "Generate a daily task scheduler."
+---
 
-This resulted in multiple AI-generated widgets that prompted additional user inputs, such as:
+#### AWS Services and Tools
+
+- **PartyRock** - Used to build and customize the application through AI-generated widgets.
+- **Amazon Bedrock** - Provides the generative AI capabilities behind PartyRock.
+
+#### Application Features
+
+- AI-generated daily schedules based on user input.
+- Customizable task lists and time allocations.
+- Motivational quotes and AI-generated images.
+- Interactive chatbot for adjusting and improving schedules.
+- Connected widgets that reference information from other parts of the application.
+- Simple interface designed to make daily planning easier.
+
+#### How I Built It
+
+I started by giving PartyRock a simple prompt:
+
+> Generate a daily task scheduler.
+
+PartyRock generated several widgets that allowed users to enter information such as:
+
 - Working hours
 - Existing commitments
-- Task list
+- Daily tasks
 
-To refine the functionality, I restructured and customized the widgets, ensuring they appeared in the optimal order for user interaction. I also edited each widget’s title, model, and prompts to ensure accurate references between widgets. For example, I created a **Time to Complete a Task** widget and referenced it in the **Generated Schedule** widget so that time blocks could be properly allocated.
+After reviewing the initial application, I made several adjustments to improve how the widgets worked together.
 
-Once the core scheduling components were finalized, I enhanced the user experience by adding motivational elements. A **motivational quote** widget was integrated, and the **motivational image** widget referenced the quote to generate a relevant image. These additions helped create a more engaging and positive user experience.
+I reorganized the layout, updated widget titles, and modified the prompts and model settings to better fit the application's purpose.
 
-### **Testing & Prompt Engineering Insights**
-After completing the first version, I decided to experiment with prompt engineering. Initially, I provided minimal instruction to the AI and manually adjusted the widgets. In my second attempt, I refined the prompt:
+One of the changes I made was creating a **Time to Complete a Task** widget. I then referenced this widget in the **Generated Schedule** widget so that the application could account for how much time each task would require.
 
-> "Create a daily task scheduler application which takes tasks and time required for tasks as input, and provides a schedule, a motivational quote, a motivational image, and a chatbot for optimizing the schedule."
+Once the scheduling features were working, I added a motivational quote widget and an image generation widget. The image widget references the generated quote to create a related image.
 
-This revised prompt generated a nearly identical application **without** requiring manual modifications, demonstrating the power of well-structured AI prompts.
+I wanted these additions to make the application a little more engaging while keeping the scheduling functionality as the main focus.
 
-## Key Takeaways
-- **Prompt engineering** significantly influences AI-generated outputs.  
-- **Customization** allows for greater control and user optimization.  
-- **AI-driven platforms like PartyRock & Bedrock** make app development accessible to non-technical users.  
+#### Testing Different Prompts
 
-## Live Application
-Check out **TaskTide**: [TaskTide on PartyRock](https://partyrock.aws/u/juliagarcia/FgansJz-v/TaskTide)
+After completing the first version, I wanted to see how much of the application PartyRock could generate without requiring manual adjustments.
+
+My original prompt was fairly basic, so I decided to try a more detailed version:
+
+> Create a daily task scheduler application which takes tasks and time required for tasks as input, and provides a schedule, a motivational quote, a motivational image, and a chatbot for optimizing the schedule.
+
+The results were interesting. PartyRock generated an application that was nearly identical to the version I had spent time manually customizing.
+
+This helped me understand how much of a difference a well-written prompt can make when working with generative AI tools.
+
+Rather than having to adjust each widget individually, I was able to describe the functionality I wanted upfront and get a much more complete result.
+
+#### What I Learned
+
+This project gave me an opportunity to experiment with Amazon Bedrock through PartyRock and learn more about how generative AI can be used to build practical applications.
+
+One of my biggest takeaways was the importance of prompt engineering. Small changes in how instructions are written can make a noticeable difference in the results.
+
+I also learned more about connecting widgets, managing references between them, and customizing AI-generated applications to better fit a specific purpose.
+
+What stood out to me most was how accessible PartyRock makes application development. Even without extensive programming experience, users can experiment with AI and create tools that solve everyday problems.
+
+---
+
+#### Try TaskTide
+
+The application is available on PartyRock:
+
+[TaskTide - Daily Task Scheduler](https://partyrock.aws/u/juliagarcia/FgansJz-v/TaskTide)
+
